@@ -549,7 +549,7 @@ MonoBehaviour:
   runInBackground: 1
   statsResetInterval: 1000
   speakerPrefab: {fileID: 0}
-  primaryRecorder: {fileID: 0}
+  primaryRecorder: {fileID: 936915981}
   globalRecordersLogLevel: 3
   globalSpeakersLogLevel: 3
   globalPlaybackDelay: -1
@@ -617,10 +617,10 @@ MonoBehaviour:
   unityMicrophoneDevice: 
   photonMicrophoneDeviceId: 0
   interestGroup: 0
-  debugEchoMode: 1
+  debugEchoMode: 0
   reliableMode: 0
   encrypt: 0
-  transmitEnabled: 0
+  transmitEnabled: 1
   samplingRate: 24000
   frameDuration: 10000
   bitrate: 30000
