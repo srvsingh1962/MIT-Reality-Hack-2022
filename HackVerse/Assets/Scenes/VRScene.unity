@@ -15435,15 +15435,15 @@ MonoBehaviour:
   DisconnectAfterKeepAlive: 0
   KeepAliveInBackground: 60000
   ApplyDontDestroyOnLoad: 1
-  logLevel: 3
+  logLevel: 1
   enableSupportLogger: 0
   updateInterval: 50
   runInBackground: 1
   statsResetInterval: 1000
   speakerPrefab: {fileID: 0}
   primaryRecorder: {fileID: 936915981}
-  globalRecordersLogLevel: 3
-  globalSpeakersLogLevel: 3
+  globalRecordersLogLevel: 1
+  globalSpeakersLogLevel: 1
   globalPlaybackDelay: -1
   globalPlaybackDelaySettings:
     MinDelaySoft: 200
@@ -28572,6 +28572,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1599481776}
   - component: {fileID: 1599481775}
+  - component: {fileID: 1599481777}
+  - component: {fileID: 1599481778}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -28612,6 +28614,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1599481777
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599481774}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1599481778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599481774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e62d055ed40a72341b9e445ff595a729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1603117700
 PrefabInstance:
   m_ObjectHideFlags: 0
