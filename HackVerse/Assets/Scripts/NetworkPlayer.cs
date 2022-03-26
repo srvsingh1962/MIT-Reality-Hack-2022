@@ -41,6 +41,8 @@ public class NetworkPlayer : MonoBehaviourPun
     {
         if(photonView.IsMine)
         {
+            leftHandRig.GetChild(0).gameObject.SetActive(false);
+            rightHandRig.GetChild(0).gameObject.SetActive(false);
             localPlayerInstance = this.gameObject;
             MapPosition(localPlayerInstance.transform, xrRig);
             MapPosition(head, headRig);
