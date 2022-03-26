@@ -17,6 +17,7 @@ public class NetworkPlayer : MonoBehaviourPun
     private Transform leftHandRig;
     private Transform rightHandRig;
     private XROrigin rig;
+    public Transform torso; 
 
     private GameObject localPlayerInstance = null;
 
@@ -48,6 +49,8 @@ public class NetworkPlayer : MonoBehaviourPun
             MapPosition(head, headRig);
             MapPosition(leftHand, leftHandRig);
             MapPosition(rightHand, rightHandRig);
+            torso.transform.position = new Vector3(headRig.transform.position.x, headRig.transform.position.y - 0.27f,
+            headRig.transform.position.z);
         }
         
     }
