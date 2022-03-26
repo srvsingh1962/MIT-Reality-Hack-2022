@@ -5,12 +5,14 @@ using UnityEngine.XR;
 using Photon.Pun;
 using UnityEngine.XR.Interaction.Toolkit;
 using Unity.XR.CoreUtils;
+using TMPro;
 
 public class NetworkPlayer : MonoBehaviourPun
 {
     [SerializeField] private Transform head;
     [SerializeField] private Transform leftHand;
     [SerializeField] private Transform rightHand;
+    [SerializeField] private TextMeshPro playerNameText;
 
     private Transform xrRig;
     private Transform headRig;
@@ -21,7 +23,6 @@ public class NetworkPlayer : MonoBehaviourPun
 
     private GameObject localPlayerInstance = null;
 
-
     private void Awake()
     {
         rig = FindObjectOfType<XROrigin>();
@@ -29,6 +30,7 @@ public class NetworkPlayer : MonoBehaviourPun
 
     void Start()
     {
+        playerNameText.text = PhotonNetwork.NickName;
         if(rig != null)
         {
             xrRig = rig.transform;
