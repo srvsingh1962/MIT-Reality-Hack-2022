@@ -30,7 +30,6 @@ public class NetworkPlayer : MonoBehaviourPun
 
     void Start()
     {
-        playerNameText.text = this.photonView.Owner.NickName;
         if(rig != null)
         {
             xrRig = rig.transform;
@@ -42,7 +41,8 @@ public class NetworkPlayer : MonoBehaviourPun
 
     void Update()
     {
-        if(photonView.IsMine)
+        playerNameText.text = this.photonView.Owner.NickName;
+        if (photonView.IsMine)
         {
             leftHand.GetChild(0).gameObject.SetActive(false);
             rightHand.GetChild(0).gameObject.SetActive(false);
