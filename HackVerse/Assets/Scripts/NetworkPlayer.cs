@@ -6,80 +6,48 @@ using Photon.Pun;
 using UnityEngine.XR.Interaction.Toolkit;
 using Unity.XR.CoreUtils;
 
-public class NetworkPlayer : MonoBehaviour
+public class NetworkPlayer : MonoBehaviourPun
 {
-    public Transform avatar;
-    public Transform head;
-    public Transform leftHand;
-    public Transform rightHand;
-    private PhotonView photonView;
+    [SerializeField] private Transform head;
+    [SerializeField] private Transform leftHand;
+    [SerializeField] private Transform rightHand;
 
+    private Transform xrRig;
     private Transform headRig;
     private Transform leftHandRig;
     private Transform rightHandRig;
+    private XROrigin rig;
+
+    private GameObject localPlayerInstance = null;
 
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        photonView = GetComponent<PhotonView>();
-        XROrigin rig = FindObjectOfType<XROrigin>();
-        headRig = rig.transform.Find("Camera Offset/Main Camera");
-        leftHandRig = rig.transform.Find("Camera Offset/LeftHand Controller");
-        rightHandRig = rig.transform.Find("Camera Offset/RightHand Controller");
-
-        if (photonView.IsMine)
-
-        {
-            int totalCount = avatar.transform.childCount;
-
-            for (int i = 0; i<totalCount; i++)
-            {
-                avatar.transform.GetChild(i).gameObject.SetActive(false);
-            }
-
-          
-        }
-
-            
-
+        rig = FindObjectOfType<XROrigin>();
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        if(rig != null)
+        {
+            xrRig = rig.transform;
+            headRig = rig.transform.Find("Camera Offset/Main Camera");
+            leftHandRig = rig.transform.Find("Camera Offset/LeftHand Controller");
+            rightHandRig = rig.transform.Find("Camera Offset/RightHand Controller");
+        }
+    }
+
     void Update()
     {
         if(photonView.IsMine)
         {
-            avatar.gameObject.SetActive(true);
-            
-            
-
+            localPlayerInstance = this.gameObject;
+            MapPosition(localPlayerInstance.transform, xrRig);
             MapPosition(head, headRig);
             MapPosition(leftHand, leftHandRig);
             MapPosition(rightHand, rightHandRig);
         }
         
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Collided");
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.name == "Portal")
-        {
-            this.gameObject.transform.position += new Vector3(0, 0.1f, 0);
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.name == "Portal")
-        {
-            this.gameObject.transform.position += new Vector3(0, 0.1f, 0);
-        }
     }
 
     void MapPosition(Transform target, Transform rigTransform)
