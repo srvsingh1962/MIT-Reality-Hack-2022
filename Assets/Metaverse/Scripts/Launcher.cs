@@ -15,7 +15,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public TMP_InputField userNameIF;
     public TMP_InputField pronounsIF;
     public TMP_InputField aboutIF;
-    public TMP_InputField stackIF;
+    public TMP_Dropdown stackDropdown;
     public TMP_Dropdown roleDropdown;
     public Transform roomListContent;
     public GameObject roomlistPrefab;
@@ -120,7 +120,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         hash["pronouns"] = pronounsIF.text;
         hash["role"] = roleDropdown.options[roleDropdown.value].text.ToString();
         hash["about"] = aboutIF.text;
-        hash["stack"] = stackIF.text;
+        hash["stack"] = stackDropdown.options[stackDropdown.value].text.ToString();
+
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }

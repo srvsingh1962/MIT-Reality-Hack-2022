@@ -23,6 +23,8 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
 
     public TMP_Text username;
     public TMP_Text role;
+    public TMP_Text expertise;
+
     public TMP_Dropdown filterdropdown;
     public GameObject infoPanel;
     public TMP_Text infoPanelText;
@@ -36,7 +38,8 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
     void Start()
     {
         InitialiseAvatar();
- 
+        infoPanel.SetActive(false);
+        filterPanel.SetActive(false);
 
     }
 
@@ -55,7 +58,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
 
         username.text = photonView.Owner.NickName+" ("+ playerpronouns+")";
         role.text = "("+playerrole+")";
-
+        expertise.text = "My Expertise: " + stack;
         SetHat(hatindex);
     }
     
@@ -120,10 +123,15 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
     public GameObject[] allplayers;
     public void SetFilter(int value)
     {
+       
          allplayers = GameObject.FindGameObjectsWithTag("User");
-       foreach(GameObject user in allplayers)
+        if (filterdropdown.options[value].text != "No Filter")
         {
-            
+
+
+            foreach (GameObject user in allplayers)
+            {
+
                 string a = filterdropdown.options[value].text;
                 string b = user.GetComponent<PlayerController>().avatarmanager.playerrole;
                 if (a.CompareTo(b) != 0)
@@ -131,14 +139,34 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
                 {
                     user.GetComponent<PlayerController>().avatarmanager.username.gameObject.SetActive(false);
                     user.GetComponent<PlayerController>().avatarmanager.role.gameObject.SetActive(false);
+                    user.GetComponent<PlayerController>().avatarmanager.expertise.gameObject.SetActive(false);
+
                 }
                 else
                 {
                     user.GetComponent<PlayerController>().avatarmanager.username.gameObject.SetActive(true);
                     user.GetComponent<PlayerController>().avatarmanager.role.gameObject.SetActive(true);
-                }
-            
+                    user.GetComponent<PlayerController>().avatarmanager.expertise.gameObject.SetActive(true);
 
+                }
+
+
+            }
+        }
+        else
+        {
+
+            foreach (GameObject user in allplayers)
+            {
+
+                 
+                
+                    user.GetComponent<PlayerController>().avatarmanager.username.gameObject.SetActive(true);
+                    user.GetComponent<PlayerController>().avatarmanager.role.gameObject.SetActive(true);
+                
+
+
+            }
         }
     }
     public void OnGazeExit(GazeData data)

@@ -98,8 +98,8 @@ namespace StarterAssets
 		   // reset our timeouts on start
 		   _jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
-			filterstate = false;
-			this.GetComponent<AvatarManager>().filterPanel.SetActive(filterstate);
+ 			filterstate = false;
+
 
 		}
 
@@ -115,7 +115,10 @@ namespace StarterAssets
 
 		private void LateUpdate()
 		{
-			CameraRotation();
+			if (!filterstate)
+			{
+				CameraRotation();
+			}
 		}
 
 		private void GroundedCheck()
@@ -190,9 +193,10 @@ namespace StarterAssets
 
 		   if(Input.GetKeyDown(KeyCode.Tab))
             {
+				
+				this.GetComponent<AvatarManager>().filterPanel.SetActive(!filterstate);
+				Cursor.lockState = filterstate ? CursorLockMode.Locked : CursorLockMode.None;
 				filterstate = !filterstate;
-				this.GetComponent<AvatarManager>().filterPanel.SetActive(filterstate);
-				Cursor.lockState = !filterstate ? CursorLockMode.Locked : CursorLockMode.None;
 
 			}
 		}

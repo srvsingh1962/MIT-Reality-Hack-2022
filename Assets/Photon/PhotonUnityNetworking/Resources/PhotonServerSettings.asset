@@ -16,7 +16,7 @@ MonoBehaviour:
     AppIdRealtime: 8bf6d0c4-3881-44a2-b771-bfd896c5b6a7
     AppIdFusion: 
     AppIdChat: 
-    AppIdVoice: 
+    AppIdVoice: 8bf6d0c4-3881-44a2-b771-bfd896c5b6a7
     AppVersion: 
     UseNameServer: 1
     FixedRegion: in
@@ -44,6 +44,9 @@ MonoBehaviour:
   - objecttAllign
   - objectAllign
   - SpawnBattery
+  - CantHearYou
+  - ChangeColour
+  - HeresWhy
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
