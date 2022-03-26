@@ -28,6 +28,21 @@ public class NetworkPlayer : MonoBehaviour
         leftHandRig = rig.transform.Find("Camera Offset/LeftHand Controller");
         rightHandRig = rig.transform.Find("Camera Offset/RightHand Controller");
 
+        if (photonView.IsMine)
+
+        {
+            int totalCount = avatar.transform.childCount;
+
+            for (int i = 0; i<totalCount; i++)
+            {
+                avatar.transform.GetChild(i).gameObject.SetActive(false);
+            }
+
+          
+        }
+
+            
+
     }
 
     // Update is called once per frame
@@ -35,7 +50,9 @@ public class NetworkPlayer : MonoBehaviour
     {
         if(photonView.IsMine)
         {
-            avatar.gameObject.SetActive(false);
+            avatar.gameObject.SetActive(true);
+            
+            
 
             MapPosition(head, headRig);
             MapPosition(leftHand, leftHandRig);
@@ -52,6 +69,14 @@ public class NetworkPlayer : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.name == "Portal")
+        {
+            this.gameObject.transform.position += new Vector3(0, 0.1f, 0);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.name == "Portal")
         {
             this.gameObject.transform.position += new Vector3(0, 0.1f, 0);
         }
