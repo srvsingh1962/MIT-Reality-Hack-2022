@@ -30,7 +30,7 @@ public class NetworkPlayer : MonoBehaviourPun
 
     void Start()
     {
-        playerNameText.text = PhotonNetwork.NickName;
+        playerNameText.text = this.photonView.Owner.NickName;
         if(rig != null)
         {
             xrRig = rig.transform;
