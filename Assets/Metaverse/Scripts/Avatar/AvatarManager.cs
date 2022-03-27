@@ -163,9 +163,9 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
             string c = skillsdropdown.options[skills].text;
             string d = user.GetComponent<PlayerController>().avatarmanager.stack;
 
-            if (a.CompareTo(b) != 0 || a.CompareTo("No filter")==0)
+            if (a.CompareTo(b) != 0 || a.CompareTo("No Filter")==0)
             {
-                if (c.CompareTo(d) != 0 || c.CompareTo("No filter") == 0)
+                if (c.CompareTo(d) != 0 || c.CompareTo("No Filter") == 0)
                 {
                     user.GetComponent<PlayerController>().avatarmanager.AvatarUI.gameObject.SetActive(false);
 
@@ -180,10 +180,18 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
             }
             else
             {
-                user.GetComponent<PlayerController>().avatarmanager.AvatarUI.gameObject.SetActive(true);
+                if (c.CompareTo(d) != 0 || c.CompareTo("No Filter") == 0)
+                {
+                    user.GetComponent<PlayerController>().avatarmanager.AvatarUI.gameObject.SetActive(false);
 
-                user.GetComponent<PlayerController>().avatarmanager.particleffect.gameObject.SetActive(true);
+                    user.GetComponent<PlayerController>().avatarmanager.particleffect.gameObject.SetActive(false);
+                }
+                else
+                {
+                    user.GetComponent<PlayerController>().avatarmanager.AvatarUI.gameObject.SetActive(true);
+                }
 
+ 
             }
 
 
