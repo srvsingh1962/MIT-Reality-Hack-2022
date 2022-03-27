@@ -15,6 +15,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     public TMP_InputField userNameIF;
     public TMP_InputField pronounsIF;
     public TMP_InputField aboutIF;
+    public TMP_InputField timezoneIF;
+
     public TMP_Dropdown stackDropdown;
     public TMP_Dropdown roleDropdown;
     public Transform roomListContent;
@@ -121,6 +123,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         hash["role"] = roleDropdown.options[roleDropdown.value].text.ToString();
         hash["about"] = aboutIF.text;
         hash["stack"] = stackDropdown.options[stackDropdown.value].text.ToString();
+        hash["timezone"] = timezoneIF.text;
 
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);

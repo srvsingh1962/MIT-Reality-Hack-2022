@@ -108,7 +108,10 @@ namespace StarterAssets
 			 
 			JumpAndGravity();
 			GroundedCheck();
-			Move();
+			if (!filterstate)
+			{
+				Move();
+			}
 			GazePointer();
 			ToggleFilter();
 		}

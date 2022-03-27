@@ -12,6 +12,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
     public GameObject[] torsos;
     public GameObject head;
     public GameObject torso;
+    public GameObject particleffect;
     float hatindex;
     float torsoindex;
     float faceindex;
@@ -19,18 +20,22 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
     public string playerrole;
     public string stack;
     public string about;
-
+    public string timezone;
+ 
 
     public TMP_Text username;
     public TMP_Text role;
     public TMP_Text expertise;
-
-    public TMP_Dropdown filterdropdown;
+    public TMP_Text aboutme;
+    public TMP_Text timezonetext;
+    public TMP_Dropdown rolerdropdown;
+    public TMP_Dropdown skillsdropdown;
     public GameObject infoPanel;
-    public TMP_Text infoPanelText;
+    public TMP_Text wholookinat;
+    public TMP_Text whoexpertise;
 
     public GameObject smileyhead;
-
+    public GameObject AvatarUI;
     public GameObject filterPanel;
     public bool IsSelected => throw new System.NotImplementedException();
 
@@ -40,6 +45,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
         InitialiseAvatar();
         infoPanel.SetActive(false);
         filterPanel.SetActive(false);
+        AvatarUI.SetActive(true);
 
     }
 
@@ -55,19 +61,22 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
         playerrole = (string)photonView.Owner.CustomProperties["role"];
         stack = (string)photonView.Owner.CustomProperties["stack"];
         about = (string)photonView.Owner.CustomProperties["about"];
-
+        timezone= (string)photonView.Owner.CustomProperties["timezone"];
+        timezonetext.text = "Timezone: " + timezone;
         username.text = photonView.Owner.NickName+" ("+ playerpronouns+")";
         role.text = "("+playerrole+")";
-        expertise.text = "My Expertise: " + stack;
+        aboutme.text = about;
+        expertise.text = "Skillset:  " + stack;
         SetHat(hatindex);
     }
     
-    public void InfoAssigner(string name,string stack,string about,bool state)
+    public void InfoAssigner(string name,string stack,string playerrole,bool state)
     {
         infoPanel.SetActive(state);
         if (state)
         {
-            infoPanelText.text = "You are looking at " + name + "\n" + name + "'s Techstack is " + stack + "\n" + "About " + photonView.Owner.NickName + " :" + about;
+            wholookinat.text = "You are looking at " + name;
+            whoexpertise.text = name + " is a "+playerrole+ " and "+name+ "'s expertise is in " + stack;
         }
         
          
@@ -116,23 +125,91 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
 
         if (looker != null)
         {
-            looker.GetComponent<AvatarManager>().InfoAssigner(photonView.Owner.NickName, stack, about, true);
+            looker.GetComponent<AvatarManager>().InfoAssigner(photonView.Owner.NickName, stack, playerrole, true);
         }
     }
 
     public GameObject[] allplayers;
+    int roles;
+    int skills;
+
+    public void ClearFilters()
+    {
+        allplayers = GameObject.FindGameObjectsWithTag("User");
+        rolerdropdown.value = 0;
+        skillsdropdown.value = 0;
+        foreach (GameObject user in allplayers)
+        {
+
+            
+                user.GetComponent<PlayerController>().avatarmanager.AvatarUI.gameObject.SetActive(true);
+                
+                user.GetComponent<PlayerController>().avatarmanager.particleffect.gameObject.SetActive(false);
+
+           
+
+
+        }
+    }
+    public void Filtering(int roles,int skills)
+    {
+        allplayers = GameObject.FindGameObjectsWithTag("User");
+        foreach (GameObject user in allplayers)
+        {
+
+            string a = rolerdropdown.options[roles].text;
+            string b = user.GetComponent<PlayerController>().avatarmanager.playerrole;
+
+            string c = skillsdropdown.options[skills].text;
+            string d = user.GetComponent<PlayerController>().avatarmanager.stack;
+
+            if (a.CompareTo(b) != 0 || a.CompareTo("No filter")==0)
+            {
+                if (c.CompareTo(d) != 0 || c.CompareTo("No filter") == 0)
+                {
+                    user.GetComponent<PlayerController>().avatarmanager.AvatarUI.gameObject.SetActive(false);
+
+                    user.GetComponent<PlayerController>().avatarmanager.particleffect.gameObject.SetActive(false);
+                }
+                else
+                {
+                    user.GetComponent<PlayerController>().avatarmanager.particleffect.gameObject.SetActive(true);
+
+                }
+
+            }
+            else
+            {
+                user.GetComponent<PlayerController>().avatarmanager.AvatarUI.gameObject.SetActive(true);
+
+                user.GetComponent<PlayerController>().avatarmanager.particleffect.gameObject.SetActive(true);
+
+            }
+
+
+        }
+    }
+    public void SetRole(int value)
+    {
+        Filtering(value, skillsdropdown.value);
+    }    
+    public void SetSkills(int value)
+    {
+        Filtering(rolerdropdown.value,value);
+
+    }
     public void SetFilter(int value)
     {
        
          allplayers = GameObject.FindGameObjectsWithTag("User");
-        if (filterdropdown.options[value].text != "No Filter")
+        if (rolerdropdown.options[value].text != "No Filter")
         {
 
 
             foreach (GameObject user in allplayers)
             {
 
-                string a = filterdropdown.options[value].text;
+                string a = rolerdropdown.options[value].text;
                 string b = user.GetComponent<PlayerController>().avatarmanager.playerrole;
                 if (a.CompareTo(b) != 0)
 
@@ -140,6 +217,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
                     user.GetComponent<PlayerController>().avatarmanager.username.gameObject.SetActive(false);
                     user.GetComponent<PlayerController>().avatarmanager.role.gameObject.SetActive(false);
                     user.GetComponent<PlayerController>().avatarmanager.expertise.gameObject.SetActive(false);
+                    user.GetComponent<PlayerController>().avatarmanager.particleffect.gameObject.SetActive(false);
 
                 }
                 else
@@ -147,6 +225,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
                     user.GetComponent<PlayerController>().avatarmanager.username.gameObject.SetActive(true);
                     user.GetComponent<PlayerController>().avatarmanager.role.gameObject.SetActive(true);
                     user.GetComponent<PlayerController>().avatarmanager.expertise.gameObject.SetActive(true);
+                    user.GetComponent<PlayerController>().avatarmanager.particleffect.gameObject.SetActive(true);
 
                 }
 
@@ -159,8 +238,8 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
             foreach (GameObject user in allplayers)
             {
 
-                 
-                
+
+                user.GetComponent<PlayerController>().avatarmanager.particleffect.gameObject.SetActive(false);
                     user.GetComponent<PlayerController>().avatarmanager.username.gameObject.SetActive(true);
                     user.GetComponent<PlayerController>().avatarmanager.role.gameObject.SetActive(true);
                 
@@ -174,7 +253,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks, IHoverable
         if (looker != null)
         {
 
-            looker.GetComponent<AvatarManager>().InfoAssigner(photonView.Owner.NickName, stack, about, false);
+            looker.GetComponent<AvatarManager>().InfoAssigner(photonView.Owner.NickName, stack, playerrole, false);
             looker = null;
         }
     }
